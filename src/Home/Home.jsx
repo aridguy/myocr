@@ -92,8 +92,8 @@ const Home = () => {
                   <div>
                     {" "}
                     <small className="text-red text-danger">
-                      not more than 15mb sized file at a time <br />
-                      file object of the image (jpg or png format) to be scanned
+                      not more than 1mb sized file at a time <br />
+                      file object of the image (jpg or png format) to be scanned.
                     </small>
                   </div>
                   <div>
