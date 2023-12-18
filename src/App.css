@@ -1,0 +1,12 @@
+.blue{
+    background-color: rgb(13, 13, 196);
+}
+textarea {
+    padding: 1em;
+    resize: vertical;
+    width: 100%;
+    border: 1px solid grey;
+    outline: none;
+    min-height:25em;
+    /* height: 30em; */
+}
