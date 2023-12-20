@@ -6,14 +6,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const Home = () => {
-    // const texts = "hello";
+  // const texts = "hello";
 
   const [showHeroDefault, setShowHeroDefault] = useState(true);
   const [showConvertDoc, setShowConvertDoc] = useState(false);
-//   const [resultConverted, setResultConverted] = useState("hello world");
+  //   const [resultConverted, setResultConverted] = useState("hello world");
 
   const [file, setFile] = useState(null);
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState("");
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -23,16 +23,17 @@ const Home = () => {
     setShowConvertDoc(true);
     setShowHeroDefault(false);
   };
-
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault(e);
-
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     if (!file) {
-        Swal.fire({
-            title: "Nothing to convert!",
-            text: "Please choose atleast a file",
-            icon: "error"
-          });
+      Swal.fire({
+        title: "Nothing to convert!",
+        text: "Please choose atleast a file",
+        icon: "error",
+      });
       return;
     }
 
@@ -41,12 +42,12 @@ const Home = () => {
     data.append("Session", "string");
 
     const options = {
-      method: 'POST',
-      url: 'https://pen-to-print-handwriting-ocr.p.rapidapi.com/recognize/',
+      method: "POST",
+      url: "https://pen-to-print-handwriting-ocr.p.rapidapi.com/recognize/",
       headers: {
-        'X-RapidAPI-Key': '9214e4dc39msh9c3202d88ae209ep1394d7jsnc5caea95c235',
-        'X-RapidAPI-Host': 'pen-to-print-handwriting-ocr.p.rapidapi.com',
-        'Content-Type': 'multipart/form-data', // Set Content-Type manually
+        "X-RapidAPI-Key": "9214e4dc39msh9c3202d88ae209ep1394d7jsnc5caea95c235",
+        "X-RapidAPI-Host": "pen-to-print-handwriting-ocr.p.rapidapi.com",
+        "Content-Type": "multipart/form-data", // Set Content-Type manually
       },
       data: data,
     };
@@ -56,6 +57,8 @@ const Home = () => {
       setResult(response.data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -93,7 +96,8 @@ const Home = () => {
                     {" "}
                     <small className="text-red text-danger">
                       not more than 1mb sized file at a time <br />
-                      file object of the image (jpg or png format) to be scanned.
+                      file object of the image (jpg or png format) to be
+                      scanned.
                     </small>
                   </div>
                   <div>
@@ -105,7 +109,7 @@ const Home = () => {
                         onChange={handleFileChange}
                       />
                       <button type="submit" className="btn btn-info blue">
-                        Convert
+                        {loading ? "Please wait" : "Convert"}
                       </button>
                     </form>
                   </div>
@@ -118,9 +122,9 @@ const Home = () => {
                           </small>
                         </div>
                         <div>
-                          <textarea defaultValue={JSON.stringify(result.value)}>
-                            
-                          </textarea>
+                          <textarea
+                            defaultValue={JSON.stringify(result.value)}
+                          ></textarea>
                         </div>
                       </div>
                     </div>
